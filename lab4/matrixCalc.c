@@ -1,18 +1,20 @@
 #include <stdlib.h>
 #include "matrixCalc.h"
+#include <stdio.h>
 
 double* GetAddress(double*, int, int, int);
-void MemoryFree(double*);
-
+void MemoryFree(void*);
 
 double* MatrixCalc(double* ptr0, double* ptr1, int size, char operation)
 {
-	if(ptr0 == NULL || ptr1 == NULL || size <= 0) return(NULL);
-
+	if(ptr0 == NULL || ptr1 == NULL || size <= 0) 
+		{
+			printf("%d \n", size);
+			return(NULL);
+		}
 	double* reasult = malloc(size*size*sizeof(double));
 
 	if(reasult == NULL) return(NULL);
-
 
 	if(operation == '+' || operation == '-')
 	{

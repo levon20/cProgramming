@@ -7,27 +7,38 @@ void InputMatrix(double*, int);
 
 void main()
 {
-	int matrixSize = 2;
+	int matrixSize;
+	double* array0 = NULL;
+	double* array1 = NULL;
+	double* reasult = NULL;
 	char operation;
 
-	double* array0 = malloc(matrixSize*matrixSize*sizeof(double));
-	double* array1 = malloc(matrixSize*matrixSize*sizeof(double));
-	double* reasult = NULL;
+	printf("Enter the size of the square matrices: ");
+	scanf("%d", &matrixSize);
 
-	if(array0 == NULL || array1 == NULL) 
+	if(matrixSize <= 0) 
 	{
-		printf("Error! Not enough memory! \n");
+		printf("Error: incorrect value size!\n");
+		return;
+	}
+
+	array0 = malloc(matrixSize*matrixSize*sizeof(double));
+	array1 = malloc(matrixSize*matrixSize*sizeof(double));
+	
+	if(array0 == NULL || array1 == NULL)
+	{
+		printf("Error: not enough free memory!");
 		return;
 	}
 
 	printf("Enter the elements of the first matrix by space (line by line): \n");
 	InputMatrix(array0, matrixSize);
 
-	printf("Enter the elements of the sacond matrix by space (line by line): \n");
+	printf("Enter the elements of the second matrix by space (line by line): \n");
 	InputMatrix(array1, matrixSize);
 
 	printf("Enter the desired matrix operation (+, -, *): ");
-	scanf("%s", &operation);
+	scanf(" %c", &operation);
 
 	reasult = MatrixCalc(array0, array1, matrixSize, operation);
 
@@ -63,7 +74,6 @@ void InputMatrix(double* ptr, int size)
 		}
 	}
 }
-
 
 
 
