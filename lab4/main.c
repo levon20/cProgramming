@@ -4,7 +4,6 @@
 
 void PrintMatrix(double*, int);
 void InputMatrix(double*, int);
-void MemoryFree(void*);
 
 void main()
 {
