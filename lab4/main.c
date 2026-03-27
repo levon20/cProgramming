@@ -41,26 +41,26 @@ void main()
 	MemoryFree(reasult);
 }
 
-void PrintMatrix(double* p, int size)
+void PrintMatrix(double* ptr, int size)
 {
 	printf("\n");
 	for(int i = 0; i < size; i++)
 	{
 		for(int j = 0; j < size; j++)
 		{
-			printf("%f ", *GetAddress(p, i, j));
+			printf("%f ", *GetAddress(ptr, size, i, j));
 		}
 		printf("\n");
 	}
 }
 
-void InputMatrix(double* p, int size)
+void InputMatrix(double* ptr, int size)
 {
 	for(int i = 0; i < size; i++)
 	{
 		for(int j = 0; j < size; j++)
 		{
-			scanf("%lf", GetAddress(p, i, j));
+			scanf("%lf", GetAddress(ptr, size, i, j));
 		}
 	}
 }

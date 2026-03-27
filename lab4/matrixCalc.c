@@ -1,43 +1,38 @@
 #include <stdlib.h>
 #include "matrixCalc.h"
 
-double* GetAddress(double* p, int i, int j)
-{
-	return(p + i*size + j);
-}
+double* GetAddress(double*, int, int, int);
+void MemoryFree(double*);
 
-void MemoryFree(void* p)
-{
-	free(p);
-	p = NULL;
-}
 
-double* MatrixCalc(double* p0, double* p1, int size, char operation)
+double* MatrixCalc(double* ptr0, double* ptr1, int size, char operation)
 {
-	if(p0 == NULL || p1 == NULL || size <= 0) return(NULL);
+	if(ptr0 == NULL || ptr1 == NULL || size <= 0) return(NULL);
 
 	double* reasult = malloc(size*size*sizeof(double));
+
 	if(reasult == NULL) return(NULL);
-	
+
 
 	if(operation == '+' || operation == '-')
 	{
 		for(int i = 0; i < size*size; i++)
-		{
-			reasult[i] = operation == '+' ? p0[i] + p1[i] : p0[i] - p1[i];
-		}
+			reasult[i] = operation == '+' ? ptr0[i] + ptr1[i] : ptr0[i] - ptr1[i];
 	}
 	else if(operation == '*')
 	{
-		for(int i = 0; i < size, i++)
-			for(int j = 0; j < size; j++)
+		for(int numOfStr = 0; numOfStr < size; numOfStr++)
+			for(int numOfCol = 0; numOfCol < size; numOfCol++)
  			{
- 				
+ 				*GetAddress(reasult, size, numOfStr, numOfCol) = 0;
+
+ 				for(int i = 0; i < size; i++)
+ 					*GetAddress(reasult, size, numOfStr, numOfCol) += *GetAddress(ptr0, size, numOfStr, i) * *GetAddress(ptr1, size, i, numOfCol);
 			}
 	}
 	else 
 	{
-		MemoryFree(reasult)
+		MemoryFree(reasult);
 		return(NULL);
 	}
 
@@ -45,3 +40,14 @@ double* MatrixCalc(double* p0, double* p1, int size, char operation)
 }
 
 
+double* GetAddress(double* ptr,int size, int i, int j)
+{
+	return(ptr + i*size + j);
+}
+
+
+void MemoryFree(void* ptr)
+{
+	free(ptr);
+	ptr = NULL;
+}
