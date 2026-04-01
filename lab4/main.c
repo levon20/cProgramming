@@ -2,15 +2,15 @@
 #include <stdlib.h>
 #include "matrixCalc.h"
 
-void PrintMatrix(double*, int);
-void InputMatrix(double*, int);
+void PrintMatrix(double**, int);
+void InputMatrix(double**, int);
 
 void main()
 {
 	int matrixSize;
-	double* array0 = NULL;
-	double* array1 = NULL;
-	double* reasult = NULL;
+	double** array0 = NULL;
+	double** array1 = NULL;
+	double** reasult = NULL;
 	char operation;
 
 	printf("Enter the size of the square matrices: ");
@@ -22,8 +22,8 @@ void main()
 		return;
 	}
 
-	array0 = malloc(matrixSize*matrixSize*sizeof(double));
-	array1 = malloc(matrixSize*matrixSize*sizeof(double));
+	array0 = CreateMatrix(matrixSize, matrixSize);
+	array1 = CreateMatrix(matrixSize, matrixSize);
 	
 	if(array0 == NULL || array1 == NULL)
 	{
@@ -42,37 +42,32 @@ void main()
 
 	reasult = MatrixCalc(array0, array1, matrixSize, operation);
 
-	MemoryFree(array0);
-	MemoryFree(array1);
+	MemoryFree(array0, matrixSize, matrixSize);
+	MemoryFree(array1, matrixSize, matrixSize);
 
 	if(reasult != NULL) PrintMatrix(reasult, matrixSize);
 	else printf("Error! \n");
 
-	MemoryFree(reasult);
+	MemoryFree(reasult, matrixSize, matrixSize);
 }
 
-void PrintMatrix(double* ptr, int size)
+void PrintMatrix(double** ptr, int size)
 {
 	printf("\n");
+	
 	for(int i = 0; i < size; i++)
 	{
 		for(int j = 0; j < size; j++)
-		{
-			printf("%f ", *GetAddress(ptr, size, i, j));
-		}
+			printf("%f ", ptr[i][j]);
 		printf("\n");
 	}
 }
 
-void InputMatrix(double* ptr, int size)
+void InputMatrix(double** ptr, int size)
 {
 	for(int i = 0; i < size; i++)
-	{
 		for(int j = 0; j < size; j++)
-		{
-			scanf("%lf", GetAddress(ptr, size, i, j));
-		}
-	}
+			scanf(" %lf", &(ptr[i][j]));
 }
 
 
