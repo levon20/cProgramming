@@ -16,11 +16,8 @@ void main()
 		perror("Error");
 
 	while(fgets(string, 100, originFilePtr) != NULL)
-	{
-		int y = GetYear(string);
-		if(y > year)
+		if(GetYear(string) > year)
 			fputs(string, newFilePtr);
-	}
 	
 	fclose(originFilePtr);
 	fclose(newFilePtr);
