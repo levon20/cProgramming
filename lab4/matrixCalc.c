@@ -2,39 +2,37 @@
 #include "matrixCalc.h"
 #include <stdio.h>
 
-double* GetAddress(double*, int, int, int);
-void MemoryFree(void*);
+void MemoryFree(double**, int, int);
+double** CreateMatrix(int, int);
 
-double* MatrixCalc(double* ptr0, double* ptr1, int size, char operation)
+double** MatrixCalc(double** ptr0, double** ptr1, int size, char operation)
 {
-	if(ptr0 == NULL || ptr1 == NULL || size <= 0) 
-		{
-			printf("%d \n", size);
-			return(NULL);
-		}
-	double* reasult = malloc(size*size*sizeof(double));
+	if(ptr0 == NULL || ptr1 == NULL || size <= 0) return(NULL);
+
+	double** reasult = CreateMatrix(size, size);
 
 	if(reasult == NULL) return(NULL);
 
 	if(operation == '+' || operation == '-')
 	{
-		for(int i = 0; i < size*size; i++)
-			reasult[i] = operation == '+' ? ptr0[i] + ptr1[i] : ptr0[i] - ptr1[i];
+		for(int i = 0; i < size; i++)
+			for(int j = 0; j < size; j++)
+				reasult[i][j] = operation == '+' ? ptr0[i][j] + ptr1[i][j] : ptr0[i][j] - ptr1[i][j];
 	}
 	else if(operation == '*')
 	{
 		for(int numOfStr = 0; numOfStr < size; numOfStr++)
 			for(int numOfCol = 0; numOfCol < size; numOfCol++)
  			{
- 				*GetAddress(reasult, size, numOfStr, numOfCol) = 0;
+ 				reasult[numOfStr][numOfCol] = 0;
 
  				for(int i = 0; i < size; i++)
- 					*GetAddress(reasult, size, numOfStr, numOfCol) += *GetAddress(ptr0, size, numOfStr, i) * *GetAddress(ptr1, size, i, numOfCol);
+ 					reasult[numOfStr][numOfCol] += ptr0[numOfStr][i] * ptr1[i][numOfCol];
 			}
 	}
 	else 
 	{
-		MemoryFree(reasult);
+		MemoryFree(reasult, size, size);
 		return(NULL);
 	}
 
@@ -42,14 +40,27 @@ double* MatrixCalc(double* ptr0, double* ptr1, int size, char operation)
 }
 
 
-double* GetAddress(double* ptr,int size, int i, int j)
+double** CreateMatrix(int numOfStr, int numOfCol)
 {
-	return(ptr + i*size + j);
+	double** matrix;
+
+	matrix = malloc(numOfStr * sizeof(double*));
+
+	if(matrix == NULL) return NULL;
+
+	for(int i = 0; i < numOfStr; i++)
+		matrix[i] = malloc(numOfCol * sizeof(double));
+	
+	return(matrix);
 }
 
 
-void MemoryFree(void* ptr)
+void MemoryFree(double** ptr, int numOfStr, int numOfColumn)
 {
+	for(int i = 0; i < numOfStr; i++)
+		free(ptr[i]);
+
 	free(ptr);
+
 	ptr = NULL;
 }
