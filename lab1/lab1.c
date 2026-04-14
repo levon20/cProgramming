@@ -45,8 +45,6 @@ void main()
 
 	printf("The square of the matrix is equal to: \n");
 	PrintSqrMatrix(array1, 'i', size1);
-
-	scanf("%d");
 }
 
 void GetSqrMatrixFromConsole(void* arrP, char type, int size)
